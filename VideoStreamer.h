@@ -18,9 +18,9 @@ using namespace cv;
 
 class VideoStreamer {
 
+public:
 	VideoCapture *capPtr;
 
-public:
 	VideoStreamer(const char* fileName);
 
 	void writeImageToFile(std::string fileName, Mat image);
