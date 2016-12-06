@@ -7,17 +7,15 @@
 
 #include "VideoStreamer.h"
 
-
 Mat VideoStreamer::getNextFame()
 {
+	Mat		frame;
+	//VideoCapture cap = *capPtr;
 
-	Mat frame;
-	VideoCapture cap = *capPtr;
-
-	if(!cap.isOpened())  // check if we succeeded
+	if(!(*capPtr).isOpened())  // check if we succeeded
 			std::cout << " Failed open attempt ( getNextFame() )  \n" ;
 
-	cap >> frame; // get a new frame from camera
+	(*capPtr) >> frame; // get a new frame from camera
 
 	std::cout << "number of chanels is " <<  frame.channels() << " \n";
 
@@ -34,14 +32,11 @@ Mat VideoStreamer::getNextFame()
 VideoStreamer::VideoStreamer(const char *fileName)
 {
 	capPtr =  new VideoCapture(fileName);
-	//capPtr = &cap;
 }
 
 
 void VideoStreamer::writeImageToFile(std::string fileName, Mat image)
 {
-
-
 	if(! (image.empty()))
 	{
 		Mat gray_image;
