@@ -44,3 +44,33 @@ void VideoStreamer::writeImageToFile(std::string fileName, Mat image)
 		imwrite( fileName , gray_image );
 	}
 }
+
+
+Mat VideoStreamer::getMatFromFile(const char* fileName){
+
+	char 	*dName;
+	dName = (char *)malloc(60);
+	strcpy(dName, "./qrimages/");
+	strcat( dName, fileName );
+	std::cout <<  "Picture name is " << dName <<" \n" ;
+
+	image = imread( dName , IMREAD_COLOR ); // Read the file
+
+	if( image.empty() )                      // Check for invalid input
+	{
+		std::cout <<  "Could not open or find the image" << " \n" ;
+	}
+
+	free(dName);
+	std::cout <<  "Return \n" ;
+	return image;
+}
+
+
+void VideoStreamer::insertSmalltoBigImage(Mat *small, Mat *big)
+{
+	Mat smallLoc = *small;
+	Mat bigLoc 	 = *big;
+	smallLoc.copyTo(bigLoc(cv::Rect( 0,0, smallLoc.cols, smallLoc.rows)));
+	big = &bigLoc;
+}

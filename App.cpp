@@ -10,31 +10,37 @@
 #include <sstream>
 #include "FileTreater.h"
 
+
 int main( int argc, const char* argv[] )
 {
 	int count = 0;
-
+	Mat frame;
 	VideoStreamer 	videoStreamer("./udp.ts");
-
-	Mat 			frame 			= 	videoStreamer.getNextFame();
 	Mat 			*im;
+	Mat 			qrIm;
+	FileTreater 	fileTreater;
 
-	FileTreater fileTreater;
+	char **qrFiles = fileTreater.getDirsFilesNames("./qrimages");
 
-	fileTreater.getDirsFilesNames("qrimages");
+	std::cout << "Array size " << sizeof(qrFiles) << " \n";
 
+	videoStreamer.getMatFromFile(qrFiles[10]);
+	for(int i =0; i < 10 ; i++)
+	{
+		videoStreamer.getMatFromFile(qrFiles[i]);
+		std::cout <<  "From Return \n" ;
+	}
 
-	videoStreamer.writeImageToFile(std::string("./procimages/im1.png"), frame);
-	videoStreamer.writeImageToFile(std::string("./procimages/im2.png"), frame);
-	videoStreamer.writeImageToFile(std::string("./procimages/im3.png"), frame);
-	videoStreamer.writeImageToFile(std::string("./procimages/im4.png"), frame);
-	videoStreamer.writeImageToFile(std::string("./procimages/im5.png"), frame);
+	for ( ; count < NUMBER_OF_QR_FILES ; count ++)
+	{
+		std::ostringstream name ;
 
-//	for ( ; count < NUMBER_OF_QR_FILES ; count ++)
-//	{
-//		std::ostringstream name ;
-//		frame              =	 videoStreamer.getNextFame() ;
-//		name << "./procimages/im" << count << ".png" ;
-//		videoStreamer.writeImageToFile(name.str() , frame);
-//	}
+		frame  	    =	videoStreamer.getNextFame() ;
+
+		qrIm  		= 	videoStreamer.getMatFromFile(qrFiles[count]);
+
+		name << "./procimages/im" << count << ".png" ;
+		videoStreamer.insertSmalltoBigImage(&qrIm, &frame);
+		videoStreamer.writeImageToFile(name.str() , frame);
+	}
 }

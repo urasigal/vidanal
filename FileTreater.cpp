@@ -11,6 +11,8 @@ char ** FileTreater::getDirsFilesNames( char * dirName)
 {
 	DIR *dir;
 
+	files = (char **) malloc (sizeof (char *) * NUMBER_OF_QR_FILES);
+
 	struct dirent *ent;
 
 	if ((dir = opendir (dirName)) != NULL)
@@ -20,11 +22,13 @@ char ** FileTreater::getDirsFilesNames( char * dirName)
 	  while ((ent = readdir (dir)) != NULL)
 	  {
 		files[index]  =  ( char * )  malloc(FILE_NAME_LENGTH * sizeof(char));
-	    if( (strcmp(ent->d_name, ".") != 0 ) && (strcmp(ent->d_name, "..") != 0)){
-	    	std::cout << "file name is " << ent->d_name  << " \n";
-	    	strcpy(files[index], ent->d_name);
+
+		if( ( strcmp(ent->d_name, ".") != 0 ) && (strcmp(ent->d_name, "..") != 0)){
+	    	strcpy( files[index] , ent->d_name );
+	    	std::cout << "file name is as " << files[index]  << " FileTreater::getDirsFilesNames \n";
+	    	index ++; // Increment the index.
 	    }
-	  }
+	  } // end of while
 	  closedir (dir);
 	}
 	else
@@ -32,5 +36,7 @@ char ** FileTreater::getDirsFilesNames( char * dirName)
 	  /* could not open directory */
 	  std::cout << "Error" ;
 	}
+	std::cout << "Array size " << sizeof(files) << " \n";
+
 	return files;
 }

@@ -20,9 +20,9 @@
 class FileTreater {
 
 public:
-	 char * files[NUMBER_OF_QR_FILES];
+	 char **files;
 
-	 char ** getDirsFilesNames( char * dirName);
+	 char **getDirsFilesNames( char * dirName);
 };
 
 #endif /* FILETREATER_H_ */
