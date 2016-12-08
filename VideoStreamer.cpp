@@ -37,13 +37,28 @@ VideoStreamer::VideoStreamer(const char *fileName)
 
 void VideoStreamer::writeImageToFile(std::string fileName, Mat image)
 {
+	static int flag = 0;
+	static VideoWriter *videoWriterPtr;
 	if(! (image.empty()))
 	{
+		VideoCapture cap= *capPtr;
 		Mat gray_image;
-		cvtColor( image, gray_image, CV_BGR2GRAY );
-		imwrite( fileName , gray_image );
+		//cvtColor( image, gray_image, CV_BGR2GRAY );
+		imwrite( fileName, image );
+		if(flag == 0)
+		{
+			int frame_width =   cap.get(CV_CAP_PROP_FRAME_WIDTH);
+			int frame_height=   cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+			//static VideoWriter video("./sourceout/procsource.ts", CV_FOURCC('H','2','6','4'), cap.get(CAP_PROP_FPS), Size(frame_width,frame_height), true);
+			static VideoWriter video("./sourceout/procsource.ts", CV_FOURCC('H','2','6','4'), 29.97 , Size(frame_width,frame_height), true);
+
+			videoWriterPtr = &video;
+			flag = 1;
+		}
+		videoWriterPtr -> write(image);
 	}
 }
+
 
 
 Mat VideoStreamer::getMatFromFile(const char* fileName){

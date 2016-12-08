@@ -10,6 +10,8 @@
 
 #include "opencv2/opencv.hpp"
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>        // Basic OpenCV structures (cv::Mat)
+#include <opencv2/videoio/videoio.hpp>
 #include <iostream>
 #include <string>
 #include <sstream>
