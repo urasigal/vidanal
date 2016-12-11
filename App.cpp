@@ -33,14 +33,23 @@ int main( int argc, const char* argv[] )
 
 	for ( ; count < NUMBER_OF_QR_FILES ; count ++)
 	{
-		std::ostringstream name ;
+		std::ostringstream nameOfFileOfImageWithQrCode;
+
+		std::ostringstream nameOfFileOfImageOnlyQrCode;
 
 		frame  	    =	videoStreamer.getNextFame() ;
 
 		qrIm  		= 	videoStreamer.getMatFromFile(qrFiles[count]);
 
-		name << "./procimages/im" << count << ".png" ;
+		nameOfFileOfImageWithQrCode << "./procimages/im" << count << ".png" ;
+
+		nameOfFileOfImageOnlyQrCode << "./cropped/im"    << count << ".png" ;
+
 		videoStreamer.insertSmalltoBigImage(&qrIm, &frame);
-		videoStreamer.writeImageToFile(name.str() , frame);
+
+		videoStreamer.writeImageToFile(nameOfFileOfImageWithQrCode.str() , frame);
+
+
+		videoStreamer.writeImageToFile(nameOfFileOfImageOnlyQrCode.str() , videoStreamer.cropMat(frame, 87, 87));
 	}
 }

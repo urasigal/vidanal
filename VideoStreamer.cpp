@@ -89,3 +89,11 @@ void VideoStreamer::insertSmalltoBigImage(Mat *small, Mat *big)
 	smallLoc.copyTo(bigLoc(cv::Rect( 0,0, smallLoc.cols, smallLoc.rows)));
 	big = &bigLoc;
 }
+
+Mat VideoStreamer::cropMat(Mat imToCrop, int hight, int width)
+{
+	//Rect region 		= new Rect(0, 0, width, hight);
+	Mat cropped         = imToCrop(Rect(0, 0, width, hight));
+	//cropped.copyTo(imToCrop(region));
+	return cropped;
+}

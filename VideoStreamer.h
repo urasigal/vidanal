@@ -39,6 +39,8 @@ public:
 
 	void insertSmalltoBigImage( Mat *small, Mat *big);
 
+	Mat cropMat(Mat imToCrop, int hight, int width); // Get region as a Mat obj from a source Mat obj.
+
 };
 
 #endif /* VIDEOSTREANER_H_ */
